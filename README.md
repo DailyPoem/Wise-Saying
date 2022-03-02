@@ -1,2 +1,2 @@
-# Fairy Tale
-AI로 동화책 생성 하기 프로젝트
+# Wise Saying
+AI로 명언 생성 프로젝트
