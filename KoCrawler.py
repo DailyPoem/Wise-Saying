@@ -7,19 +7,8 @@ from pandas import DataFrame
 
 #data = pd.read_csv('./dataset.csv')
 
-
-TAG = ['love', 'life', 'inspirational', 'humor', 'philosophy', 'god', 'truth', 'wisdom', 'poetry', 'romance', 'death', 'happiness', 'hope', 'faith', 'quotes', 'life-lessons', 'writing', 'motivational', 'religion', 'success', 'time', 'knowledge', 'science']
-t = 'science'
-
-url = 'https://saramro.com/quotes'
-
-response = requests.get(url)
-print(response.text)
-
-
-'''
-for page in range(1, 101):
-    url = 'https://www.goodreads.com/quotes/tag/' + t + '?page=' + str(page)
+for page in range(1, 1026):
+    url = 'https://saramro.com/quotes?page=' + str(page)
 
     response = requests.get(url)
     print(page)
@@ -27,16 +16,23 @@ for page in range(1, 101):
     if response.status_code == 200:
         html = response.text
         soup = BeautifulSoup(html, 'html.parser')
-        for count in range(30):
-            title = soup.select('.quoteText')[count].get_text()
-
-            txt = title.split('\n')
-
-            data = data.append({'author' : txt[4], 'content' : txt[1], 'tag' : t}, ignore_index=True)
+        data = soup.find('tbody')
+        tagA = data.findAll('a')
+        hrefs = []
+        for i in tagA:
+            hrefs.append(i.attrs['href'])
+        
+        for i in hrefs:
+            res = requests.get(i)
+            if res.status_code == 200:
+                html = response.text
+                soup = BeautifulSoup(html, 'html.parser')
+                # 한 페이지내의 링크들에서 제목과, 태그, 본문만 추출하여 저장하면 끝
     
     else : 
         print(response.status_code)
 
+    
+
 
 data.to_csv('dataset.csv', index=False)
-'''
