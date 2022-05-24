@@ -20,7 +20,7 @@ print(content[0])
 print(content[1])
 
 df.append({'author': content[1],'content':content[0],'tag':tag}, ignore_index=True)
-df.to_csv('KO_dataset.csv')
+df.to_csv('KO_dataset.csv'  )
 
 
 '''

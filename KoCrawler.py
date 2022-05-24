@@ -28,6 +28,9 @@ for page in range(1, 1026):
                 html = response.text
                 soup = BeautifulSoup(html, 'html.parser')
                 # 한 페이지내의 링크들에서 제목과, 태그, 본문만 추출하여 저장하면 끝
+                
+
+            else : print(response.status_code)
     
     else : 
         print(response.status_code)
