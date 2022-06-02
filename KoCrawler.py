@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from pandas import DataFrame
 
-#data = pd.read_csv('./dataset.csv')
+dataset = pd.read_csv('./KO_dataset.csv')
 
 for page in range(1, 1026):
     url = 'https://saramro.com/quotes?page=' + str(page)
@@ -21,21 +21,20 @@ for page in range(1, 1026):
         hrefs = []
         for i in tagA:
             hrefs.append(i.attrs['href'])
-        
+        print('href : ' + str(len(hrefs)))
         for i in hrefs:
             res = requests.get(i)
             if res.status_code == 200:
-                html = response.text
-                soup = BeautifulSoup(html, 'html.parser')
+                print(i)
+                html2 = res.text
+                soup2 = BeautifulSoup(html2, 'html.parser')
                 # 한 페이지내의 링크들에서 제목과, 태그, 본문만 추출하여 저장하면 끝
-                
-
+                title = soup2.find("span",{"class": "bo_v_tit"})
+                tag = ((str(title.text).split('-')[0]).replace('\n', '')).replace(' ', '')
+                content = soup2.find("div",{"id": "bo_v_con"}).find_all(text=True)
+                dataset = dataset.append({'author': content[1],'content':content[0],'tag':tag}, ignore_index=True)
             else : print(response.status_code)
     
     else : 
         print(response.status_code)
-
-    
-
-
-data.to_csv('dataset.csv', index=False)
+dataset.to_csv('KO_dataset.csv')

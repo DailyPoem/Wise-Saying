@@ -5,10 +5,15 @@ import requests
 from bs4 import BeautifulSoup
 import pandas as pd
 from pandas import DataFrame
+# data = data.append({'author' : txt[4], 'content' : txt[1], 'tag' : t}, ignore_index=True)
 
-df = pd.read_csv('KO_dataset.csv', encoding='utf-8')
+data = pd.read_csv('KO_dataset.csv')
+print(data)
 
-url = "https://saramro.com/quotes/16335"
+'''
+data = pd.read_csv('./KO_dataset.csv')
+#url = "https://saramro.com/quotes/16335"
+url = "https://saramro.com/quotes/16348"
 response = requests.get(url)
 html = response.text
 soup = BeautifulSoup(html, 'html.parser')
@@ -19,10 +24,11 @@ print(tag)
 print(content[0])
 print(content[1])
 
-df.append({'author': content[1],'content':content[0],'tag':tag}, ignore_index=True)
-df.to_csv('KO_dataset.csv'  )
+data = data.append({'author': content[1],'content':content[0],'tag':tag}, ignore_index=True)
+data.to_csv('KO_dataset.csv')
 
 
+'''
 '''
 for page in range(1, 1026):
     url = 'https://saramro.com/quotes?page=' + str(page)
