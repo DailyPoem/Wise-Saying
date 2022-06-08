@@ -6,9 +6,21 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from pandas import DataFrame
 # data = data.append({'author' : txt[4], 'content' : txt[1], 'tag' : t}, ignore_index=True)
+txt = "hello"
+content = "content"
+tag = "tag"
 
 data = pd.read_csv('KO_dataset.csv')
 print(data)
+
+# #df = data.append(data.iloc[-1], ignore_index=True)
+# #df.iloc[-1] = [txt, content, tag]
+# for i in data.columns:
+#     if i not in ['author', 'content', 'tag']:
+#         data = data.drop(i, axis=1)
+# data.to_csv("KO_dataset.csv")
+
+
 
 '''
 data = pd.read_csv('./KO_dataset.csv')

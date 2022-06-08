@@ -5,13 +5,13 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from pandas import DataFrame
 
-dataset = pd.read_csv('./KO_dataset.csv')
 
-for page in range(1, 1026):
+for page in range(801, 1026):
     url = 'https://saramro.com/quotes?page=' + str(page)
 
     response = requests.get(url)
     print(page)
+    dataset = pd.read_csv('./KO_dataset.csv')
     
     if response.status_code == 200:
         html = response.text
@@ -21,11 +21,11 @@ for page in range(1, 1026):
         hrefs = []
         for i in tagA:
             hrefs.append(i.attrs['href'])
-        print('href : ' + str(len(hrefs)))
+        #print('href : ' + str(len(hrefs)))
         for i in hrefs:
             res = requests.get(i)
             if res.status_code == 200:
-                print(i)
+                #print(i)
                 html2 = res.text
                 soup2 = BeautifulSoup(html2, 'html.parser')
                 # 한 페이지내의 링크들에서 제목과, 태그, 본문만 추출하여 저장하면 끝
@@ -37,4 +37,7 @@ for page in range(1, 1026):
     
     else : 
         print(response.status_code)
-dataset.to_csv('KO_dataset.csv')
+    for i in dataset.columns:
+        if i not in ['author', 'content', 'tag']:
+            dataset = dataset.drop(i, axis=1)
+    dataset.to_csv('KO_dataset.csv')
